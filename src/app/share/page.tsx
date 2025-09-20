@@ -28,8 +28,6 @@ import {
   Twitter,
   Facebook,
   MessageCircle,
-  Smartphone,
-  Loader2,
   CheckCircle,
   AlertCircle,
 } from 'lucide-react';
@@ -40,7 +38,6 @@ export default function SharePage() {
   const [layout, setLayout] = useState<'grid' | 'horizontal'>('grid');
   const [showTypes, setShowTypes] = useState(true);
   const [showIds, setShowIds] = useState(true);
-  const [isGenerating, setIsGenerating] = useState(false);
   const [lastGeneratedImage, setLastGeneratedImage] = useState<string | null>(null);
   const [status, setStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({
     type: null,
@@ -54,13 +51,17 @@ export default function SharePage() {
     }
   }, [selectedPokemon]);
 
+  // 設定が変更されたときに生成済み画像をリセット
+  useEffect(() => {
+    setLastGeneratedImage(null);
+  }, [layout, showTypes, showIds, selectedTheme]);
+
   const showStatus = (type: 'success' | 'error', message: string) => {
     setStatus({ type, message });
     setTimeout(() => setStatus({ type: null, message: '' }), 3000);
   };
 
   const handleGenerateImage = async (): Promise<string | null> => {
-    setIsGenerating(true);
     try {
       // まずhtml2canvasを試し、失敗したらdom-to-imageにフォールバック
       let dataUrl: string;
@@ -77,20 +78,18 @@ export default function SharePage() {
       console.error('Failed to generate image:', error);
       showStatus('error', '画像の生成に失敗しました');
       return null;
-    } finally {
-      setIsGenerating(false);
     }
   };
 
   const handleDownload = async () => {
-    const dataUrl = lastGeneratedImage || await handleGenerateImage();
+    const dataUrl = await handleGenerateImage(); // 常に最新の設定で生成
     if (dataUrl) {
       downloadImage(dataUrl, 'my-pokemon-team.png');
     }
   };
 
   const handleCopyToClipboard = async () => {
-    const dataUrl = lastGeneratedImage || await handleGenerateImage();
+    const dataUrl = await handleGenerateImage(); // 常に最新の設定で生成
     if (dataUrl) {
       try {
         await copyImageToClipboard(dataUrl);
@@ -260,23 +259,6 @@ export default function SharePage() {
                 <CardTitle className="text-lg">共有・保存</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {/* Generate Image */}
-                <Button
-                  onClick={handleGenerateImage}
-                  disabled={isGenerating}
-                  className="w-full"
-                  variant="outline"
-                >
-                  {isGenerating ? (
-                    <>
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      生成中...
-                    </>
-                  ) : (
-                    '画像を生成'
-                  )}
-                </Button>
-
                 {/* Download */}
                 <Button onClick={handleDownload} className="w-full" variant="outline">
                   <Download className="h-4 w-4 mr-2" />
@@ -288,14 +270,6 @@ export default function SharePage() {
                   <Copy className="h-4 w-4 mr-2" />
                   クリップボードにコピー
                 </Button>
-
-                {/* Native Share */}
-                {typeof navigator !== 'undefined' && 'share' in navigator && (
-                  <Button onClick={handleNativeShare} className="w-full" variant="outline">
-                    <Smartphone className="h-4 w-4 mr-2" />
-                    デバイスで共有
-                  </Button>
-                )}
 
                 <div className="border-t pt-3 mt-3">
                   <p className="text-sm text-gray-600 mb-3">SNSで共有</p>
