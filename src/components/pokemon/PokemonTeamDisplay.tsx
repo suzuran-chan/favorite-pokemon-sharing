@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useSelectedPokemon, useThemeSettings } from '@/store/pokemonStore';
-import { getTypeColor, capitalizePokemonName, formatPokemonId } from '@/utils/helpers';
+import { getTypeColor, capitalizePokemonName, formatPokemonId, translateTypeName } from '@/utils/helpers';
 import { generateColorPalette } from '@/utils/shareUtils';
 
 interface PokemonTeamDisplayProps {
@@ -111,7 +111,7 @@ export function PokemonTeamDisplay({
                           border: 'none',
                         }}
                       >
-                        {type}
+                        {translateTypeName(type)}
                       </Badge>
                     ))}
                   </div>

@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { usePokemonStore, useSearchFilters } from '@/store/pokemonStore';
 import { POKEMON_TYPE_COLORS } from '@/types/pokemon';
+import { translateTypeName } from '@/utils/helpers';
 import { Search, Filter, X } from 'lucide-react';
 import { useState } from 'react';
 
@@ -102,9 +103,9 @@ export function PokemonFilters() {
                       borderColor: POKEMON_TYPE_COLORS[type],
                       color: currentType === type ? 'white' : POKEMON_TYPE_COLORS[type],
                     }}
-                    className="text-xs capitalize"
+                    className="text-xs"
                   >
-                    {type}
+                    {translateTypeName(type)}
                   </Button>
                 ))}
               </div>
@@ -154,7 +155,7 @@ export function PokemonFilters() {
                 color: 'white',
               }}
             >
-              {currentType}
+              {translateTypeName(currentType)}
               <X 
                 className="h-3 w-3 cursor-pointer" 
                 onClick={() => setSelectedType('')}

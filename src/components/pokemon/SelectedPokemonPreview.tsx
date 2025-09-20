@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useSelectedPokemon, usePokemonStore } from '@/store/pokemonStore';
-import { getTypeColor, capitalizePokemonName, formatPokemonId } from '@/utils/helpers';
+import { capitalizePokemonName, getTypeColor, formatPokemonId, translateTypeName } from '@/utils/helpers';
 import { getRandomPokemon } from '@/services/pokeapi';
 import { X, Shuffle, Share2 } from 'lucide-react';
 import Link from 'next/link';
@@ -99,7 +99,7 @@ export function SelectedPokemonPreview() {
                           fontSize: '10px',
                         }}
                       >
-                        {type}
+                        {translateTypeName(type)}
                       </Badge>
                     ))}
                   </div>

@@ -1,5 +1,32 @@
 import { POKEMON_TYPE_COLORS } from '@/types/pokemon';
 
+// ポケモンタイプの日本語翻訳
+const TYPE_TRANSLATIONS: Record<string, string> = {
+  normal: 'ノーマル',
+  fire: 'ほのお',
+  water: 'みず',
+  electric: 'でんき',
+  grass: 'くさ',
+  ice: 'こおり',
+  fighting: 'かくとう',
+  poison: 'どく',
+  ground: 'じめん',
+  flying: 'ひこう',
+  psychic: 'エスパー',
+  bug: 'むし',
+  rock: 'いわ',
+  ghost: 'ゴースト',
+  dragon: 'ドラゴン',
+  dark: 'あく',
+  steel: 'はがね',
+  fairy: 'フェアリー'
+};
+
+// ポケモンタイプを日本語に翻訳
+export const translateTypeName = (type: string): string => {
+  return TYPE_TRANSLATIONS[type] || type;
+};
+
 // ポケモンタイプの色を取得
 export const getTypeColor = (type: string): string => {
   return POKEMON_TYPE_COLORS[type] || POKEMON_TYPE_COLORS.normal;
