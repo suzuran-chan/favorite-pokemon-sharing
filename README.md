@@ -1,17 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 好きなポケモン共有アプリ
 
-## Getting Started
+![Pokemon Team Sharing App](https://img.shields.io/badge/Next.js-15.5.3-black?style=for-the-badge&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css)
 
-First, run the development server:
+## 概要
+
+このアプリは、すべてのポケモン世代から好きなポケモンを6匹まで選び、選んだポケモンをSNSで共有できるWebアプリケーションです。ポケモンファン同士が好きなポケモンを見せ合い、共有することを目的としています。
+
+## 主な機能
+
+### ✨ 核心機能
+
+- **ポケモン選択**: 第1世代から最新世代まで全ポケモンから最大6匹を選択
+- **検索・フィルタ**: 名前、タイプ、世代による絞り込み機能
+- **カスタマイズ**: 背景テーマやレイアウトの変更
+- **SNS共有**: Twitter、Facebook、LINEでの簡単共有
+- **画像生成**: 選択したポケモンチームの画像を自動生成
+
+### 🎯 追加機能
+
+- **ランダム選択**: ワンクリックでランダムな6匹を提案
+- **レスポンシブデザイン**: スマートフォン、タブレット、PC対応
+- **リアルタイムプレビュー**: 選択中のポケモンをリアルタイム表示
+- **画像ダウンロード**: 作成したチーム画像のローカル保存
+
+## 技術スタック
+
+### フロントエンド
+- **Next.js 15.5.3** - React フレームワーク
+- **TypeScript** - 型安全な開発
+- **Tailwind CSS** - ユーティリティファーストのCSS
+- **shadcn/ui** - モダンなUIコンポーネント
+
+### 状態管理・API
+- **Zustand** - 軽量な状態管理ライブラリ
+- **PokeAPI** - ポケモンデータの取得
+
+### その他
+- **dom-to-image** - HTML要素の画像変換
+- **Lucide React** - アイコンライブラリ
+
+## セットアップ
+
+### 必要な環境
+
+- Node.js 18.0.0 以上
+- npm または yarn
+
+### インストール
 
 ```bash
+# リポジトリをクローン
+git clone https://github.com/your-username/favorite-pokemon-sharing.git
+cd favorite-pokemon-sharing
+
+# 依存関係をインストール
+npm install
+
+# 開発サーバーを起動
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
