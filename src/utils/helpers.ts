@@ -37,7 +37,15 @@ export const formatPokemonId = (id: number): string => {
   return `#${id.toString().padStart(3, '0')}`;
 };
 
-// ポケモン名を大文字に変換
+// ポケモン名を適切に表示（日本語名がある場合は日本語、なければ英語名を大文字に）
+export const formatPokemonName = (pokemon: { name: string; japaneseName?: string }): string => {
+  if (pokemon.japaneseName) {
+    return pokemon.japaneseName;
+  }
+  return capitalizePokemonName(pokemon.name);
+};
+
+// ポケモン名を大文字に変換（英語名用）
 export const capitalizePokemonName = (name: string): string => {
   return name.charAt(0).toUpperCase() + name.slice(1);
 };

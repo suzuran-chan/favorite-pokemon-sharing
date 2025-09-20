@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useSelectedPokemon, useThemeSettings } from '@/store/pokemonStore';
-import { getTypeColor, capitalizePokemonName, formatPokemonId, translateTypeName } from '@/utils/helpers';
+import { getTypeColor, capitalizePokemonName, formatPokemonId, translateTypeName, formatPokemonName } from '@/utils/helpers';
 import { generateColorPalette } from '@/utils/shareUtils';
 
 interface PokemonTeamDisplayProps {
@@ -95,7 +95,7 @@ export function PokemonTeamDisplay({
                 )}
                 
                 <h3 className="font-bold text-lg text-gray-900 capitalize">
-                  {capitalizePokemonName(pokemon.name)}
+                  {formatPokemonName(pokemon)}
                 </h3>
                 
                 {showTypes && (

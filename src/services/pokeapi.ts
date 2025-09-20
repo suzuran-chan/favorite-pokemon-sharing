@@ -103,6 +103,10 @@ class PokeAPIClient {
       const pokemon = await this.getPokemonById(id);
       if (!pokemon) return null;
 
+      // species情報を取得して日本語名を取得
+      const species = await this.fetchWithCache<PokemonSpecies>(pokemon.species.url);
+      const japaneseName = this.getJapaneseName(species);
+
       // シンプルにIDから世代を判定（パフォーマンス向上のため）
       const generation = this.getGenerationFromId(id);
 
@@ -111,7 +115,8 @@ class PokeAPIClient {
 
       return {
         id: pokemon.id,
-        name: pokemon.name,
+        name: japaneseName || pokemon.name, // 日本語名が取得できない場合は英語名をフォールバック
+        japaneseName: japaneseName || undefined, // 日本語名を別フィールドとしても保存
         types: pokemon.types.map(t => t.type.name),
         imageUrl,
         generation,
@@ -174,6 +179,12 @@ class PokeAPIClient {
       sprites.front_default ||
       '/placeholder-pokemon.png'
     );
+  }
+
+  // species情報から日本語名を取得
+  private getJapaneseName(species: PokemonSpecies): string | null {
+    const japaneseName = species.names.find(name => name.language.name === 'ja');
+    return japaneseName ? japaneseName.name : null;
   }
 
   // タイプでフィルタリング

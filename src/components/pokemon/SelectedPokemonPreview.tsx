@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useSelectedPokemon, usePokemonStore } from '@/store/pokemonStore';
-import { capitalizePokemonName, getTypeColor, formatPokemonId, translateTypeName } from '@/utils/helpers';
+import { capitalizePokemonName, getTypeColor, formatPokemonId, translateTypeName, formatPokemonName } from '@/utils/helpers';
 import { getRandomPokemon } from '@/services/pokeapi';
 import { X, Shuffle, Share2 } from 'lucide-react';
 import Link from 'next/link';
@@ -85,7 +85,7 @@ export function SelectedPokemonPreview() {
                     {formatPokemonId(pokemon.id)}
                   </div>
                   <div className="font-medium text-sm capitalize truncate">
-                    {capitalizePokemonName(pokemon.name)}
+                    {formatPokemonName(pokemon)}
                   </div>
                   <div className="flex flex-wrap gap-1">
                     {pokemon.types.slice(0, 2).map((type) => (

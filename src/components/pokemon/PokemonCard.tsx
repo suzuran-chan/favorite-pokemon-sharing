@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { usePokemonStore, useIsPokemonSelected, useCanAddPokemon } from '@/store/pokemonStore';
-import { getTypeColor, capitalizePokemonName, formatPokemonId, translateTypeName } from '@/utils/helpers';
+import { getTypeColor, capitalizePokemonName, formatPokemonId, translateTypeName, formatPokemonName } from '@/utils/helpers';
 import { Plus, Check } from 'lucide-react';
 
 interface PokemonCardProps {
@@ -79,7 +79,7 @@ export function PokemonCard({ pokemon, onClick }: PokemonCardProps) {
           </div>
           
           <h3 className="font-semibold text-sm text-gray-900 capitalize truncate">
-            {capitalizePokemonName(pokemon.name)}
+            {formatPokemonName(pokemon)}
           </h3>
           
           {/* Pokemon Types */}
