@@ -1,4 +1,5 @@
 import domtoimage from 'dom-to-image';
+import html2canvas from 'html2canvas';
 
 // 画像生成関連のユーティリティ
 export const generatePokemonTeamImage = async (elementId: string): Promise<string> => {
@@ -8,23 +9,70 @@ export const generatePokemonTeamImage = async (elementId: string): Promise<strin
       throw new Error('Element not found');
     }
 
+    // 要素の実際のサイズを取得
+    const rect = element.getBoundingClientRect();
+    
+    // スクロール可能な範囲も含めたサイズを取得
+    const actualWidth = Math.max(rect.width, element.scrollWidth, 600); // 最小幅を確保
+    const actualHeight = Math.max(rect.height, element.scrollHeight, 400); // 最小高さを確保
+    
+    console.log(`Generating image: ${actualWidth}x${actualHeight}`);
+    
     // 高品質な画像を生成
     const dataUrl = await domtoimage.toPng(element, {
       quality: 1.0,
       bgcolor: '#ffffff',
-      width: 800,
-      height: 600,
+      width: actualWidth,
+      height: actualHeight,
       style: {
-        transform: 'scale(2)',
-        transformOrigin: 'top left',
-        width: '400px',
-        height: '300px',
+        overflow: 'visible', // 見切れ防止
+        display: 'block',
+        position: 'static',
       },
+      filter: (node) => {
+        // スクロールバーやその他の不要な要素を除外
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const element = node as Element;
+          if (element.tagName === 'STYLE') return false;
+        }
+        return true;
+      },
+      imagePlaceholder: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', // 透明な1x1ピクセル
     });
 
     return dataUrl;
   } catch (error) {
     console.error('Failed to generate image:', error);
+    throw error;
+  }
+};
+
+// html2canvasを使った代替の画像生成関数（より安定）
+export const generatePokemonTeamImageWithHtml2Canvas = async (elementId: string): Promise<string> => {
+  try {
+    const element = document.getElementById(elementId);
+    if (!element) {
+      throw new Error('Element not found');
+    }
+
+    console.log('Generating image with html2canvas...');
+    
+    const canvas = await html2canvas(element, {
+      backgroundColor: '#ffffff',
+      scale: 2, // 高解像度
+      useCORS: true,
+      allowTaint: true,
+      height: element.scrollHeight,
+      width: element.scrollWidth,
+      scrollX: 0,
+      scrollY: 0,
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight,
+    });
+
+    return canvas.toDataURL('image/png', 1.0);
+  } catch (error) {
+    console.error('Failed to generate image with html2canvas:', error);
     throw error;
   }
 };

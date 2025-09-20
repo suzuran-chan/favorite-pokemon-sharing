@@ -52,6 +52,8 @@ export function PokemonTeamDisplay({
       className="w-full min-h-96 p-8 rounded-lg"
       style={{
         background: theme.background,
+        minWidth: '600px', // 最小幅を確保して見切れを防止
+        width: 'fit-content', // コンテンツに合わせて幅を調整
       }}
     >
       {/* Header */}
@@ -65,19 +67,35 @@ export function PokemonTeamDisplay({
       </div>
 
       {/* Pokemon Grid */}
-      <div className={
-        layout === 'grid' 
-          ? 'grid grid-cols-2 md:grid-cols-3 gap-6'
-          : 'flex flex-wrap justify-center gap-4'
-      }>
+      <div 
+        className={
+          layout === 'grid' 
+            ? 'grid grid-cols-3 gap-6' // responsive指定を削除して固定に
+            : 'flex flex-wrap justify-center gap-3 items-stretch' // gapを小さく
+        }
+        style={{
+          maxWidth: layout === 'horizontal' ? '1200px' : '800px', // 横並びの時はさらに幅広く
+          margin: '0 auto', // 中央揃え
+        }}
+      >
         {selectedPokemon.map((pokemon) => (
           <Card 
             key={pokemon.id} 
-            className="bg-white/95 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-shadow"
+            className={`bg-white/95 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-shadow ${
+              layout === 'horizontal' 
+                ? 'w-32 flex-shrink-0' // 横並びの時は固定幅（128px）
+                : ''
+            }`}
           >
-            <CardContent className="p-4 text-center">
+            <CardContent className={`text-center ${
+              layout === 'horizontal' 
+                ? 'p-3 h-full flex flex-col' // 横並びの時はpadding小さく、高さを統一
+                : 'p-4'
+            }`}>
               {/* Pokemon Image */}
-              <div className="w-full h-24 flex items-center justify-center mb-3">
+              <div className={`w-full flex items-center justify-center mb-2 ${
+                layout === 'horizontal' ? 'h-16' : 'h-24'
+              }`}>
                 <img
                   src={pokemon.imageUrl}
                   alt={pokemon.name}
@@ -87,14 +105,18 @@ export function PokemonTeamDisplay({
               </div>
               
               {/* Pokemon Info */}
-              <div className="space-y-2">
+              <div className={`space-y-2 ${
+                layout === 'horizontal' ? 'flex-grow flex flex-col justify-between' : ''
+              }`}>
                 {showIds && (
                   <div className="text-xs text-gray-500 font-mono">
                     {formatPokemonId(pokemon.id)}
                   </div>
                 )}
                 
-                <h3 className="font-bold text-lg text-gray-900 capitalize">
+                <h3 className={`font-bold text-gray-900 capitalize ${
+                  layout === 'horizontal' ? 'text-sm' : 'text-lg'
+                }`}>
                   {formatPokemonName(pokemon)}
                 </h3>
                 

@@ -10,6 +10,7 @@ import { useSelectedPokemon } from '@/store/pokemonStore';
 import { PokemonTeamDisplay, ThemeSelector, LayoutSelector } from '@/components/pokemon/PokemonTeamDisplay';
 import {
   generatePokemonTeamImage,
+  generatePokemonTeamImageWithHtml2Canvas,
   downloadImage,
   copyImageToClipboard,
   shareImage,
@@ -61,7 +62,14 @@ export default function SharePage() {
   const handleGenerateImage = async (): Promise<string | null> => {
     setIsGenerating(true);
     try {
-      const dataUrl = await generatePokemonTeamImage('pokemon-team-display');
+      // まずhtml2canvasを試し、失敗したらdom-to-imageにフォールバック
+      let dataUrl: string;
+      try {
+        dataUrl = await generatePokemonTeamImageWithHtml2Canvas('pokemon-team-display');
+      } catch (error) {
+        console.warn('html2canvas failed, falling back to dom-to-image:', error);
+        dataUrl = await generatePokemonTeamImage('pokemon-team-display');
+      }
       setLastGeneratedImage(dataUrl);
       showStatus('success', '画像を生成しました！');
       return dataUrl;
