@@ -38,8 +38,6 @@ export default function SharePage() {
     type: null,
     message: '',
   });
-  // 短いテキストで事前入力が機能するかのテスト用URL
-  const intentTestUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent('テスト投稿')}`;
 
   // ポケモンが選択されていない場合のリダイレクト
   useEffect(() => {
@@ -114,20 +112,22 @@ export default function SharePage() {
   const isOpeningRef = useRef(false);
 
   const handleSocialShare = (platform: 'twitter') => {
-    // テキスト事前入力の動作確認用に、短い固定テキストでテストします
-    const testText = 'テスト投稿';
-    const encodedText = encodeURIComponent(testText);
+    // 日本語名がある場合は日本語名を優先
+    const pokemonNames = selectedPokemon.map(p => p.japaneseName || p.name);
+    const shareText = generateShareText(pokemonNames);
+  const baseText = `${shareText}\n\n#FavoritePokemonSharing`;
+    const encodedText = encodeURIComponent(baseText);
 
     if (isOpeningRef.current) return; // 二重起動防止
     isOpeningRef.current = true;
 
-    // 事前入力が比較的安定している Intent Tweet を開く（1回のみ）
-  window.open(`https://twitter.com/intent/tweet?text=${encodedText}`, '_blank', 'noopener,noreferrer');
+    // 要望に合わせて window.open(url, "_blank") で開く
+    window.open(`https://twitter.com/intent/tweet?text=${encodedText}`, '_blank');
 
     // 少し待ってガード解除（連打対策）
     setTimeout(() => { isOpeningRef.current = false; }, 800);
 
-    showStatus('success', 'テスト用の短いテキストで投稿画面を開きました。入力されているか確認してください。');
+    showStatus('success', 'Twitterの投稿画面を開きました。');
   };
 
   if (selectedPokemon.length === 0) {
@@ -279,17 +279,10 @@ export default function SharePage() {
                     <Button
                       variant="outline"
                       className="w-full justify-start"
-                      onClick={() => {
-                        if (isOpeningRef.current) return;
-                        isOpeningRef.current = true;
-                        // 要望に合わせて window.open(url, "_blank") を使用
-                        window.open(intentTestUrl, '_blank');
-                        setTimeout(() => { isOpeningRef.current = false; }, 800);
-                        showStatus('success', 'テスト用の短いテキストで投稿画面を開きます');
-                      }}
+                      onClick={() => handleSocialShare('twitter')}
                     >
                       <Twitter className="h-4 w-4 mr-2 text-blue-500" />
-                      Twitterで共有（テスト）
+                      Twitterで共有
                     </Button>
                   </div>
                 </div>
