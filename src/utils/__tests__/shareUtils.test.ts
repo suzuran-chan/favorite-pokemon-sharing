@@ -41,9 +41,10 @@ describe('shareUtils', () => {
   });
 
   describe('generateTwitterShareUrl', () => {
-    it('テキストとハッシュタグ付きのTwitter intent URLを生成する', () => {
+    it('テキストとハッシュタグ付きのTwitter/X intent URLを生成する', () => {
       const url = generateTwitterShareUrl('テスト', ['FavoritePokemonSharing']);
-      expect(url).toContain('https://twitter.com/intent/tweet?');
+      // X.comの新しいURLを使用
+      expect(url).toContain('https://x.com/intent/post?');
       expect(url).toContain('text=%E3%83%86%E3%82%B9%E3%83%88');
       expect(url).toContain('hashtags=FavoritePokemonSharing');
     });

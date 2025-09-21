@@ -81,13 +81,13 @@ export const generateShareText = (pokemonNames: string[]): string => {
   return `私の好きなポケモンは${namesText}です！ #好きなポケモン #ポケモン`;
 };
 
-// Twitter共有URL生成
+// Twitter/X共有URL生成
 export const generateTwitterShareUrl = (text: string, url?: string): string => {
   const params = new URLSearchParams({
     text,
     ...(url && { url }),
   });
-  return `https://twitter.com/intent/tweet?${params.toString()}`;
+  return `https://x.com/intent/post?${params.toString()}`;
 };
 
 // Facebook共有URL生成

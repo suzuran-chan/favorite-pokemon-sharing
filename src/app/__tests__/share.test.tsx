@@ -32,13 +32,18 @@ describe('シェアページ', () => {
     window.open = originalOpen;
   });
 
-  it('共有UIを表示しTwitter投稿画面を開く', () => {
+  it('共有UIを表示しTwitter/X投稿画面を開く', () => {
     render(<SharePage />);
     const btn = screen.getByRole('button', { name: /Twitterで共有/ });
     fireEvent.click(btn);
     expect(window.open).toHaveBeenCalled();
     const url = (window.open as jest.Mock).mock.calls[0][0] as string;
-    expect(url).toMatch(/^https:\/\/twitter\.com\/intent\/tweet\?text=/);
+    
+    // Twitter/X の両方の URL 形式に対応
+    expect(
+      url.match(/^https:\/\/twitter\.com\/intent\/tweet\?text=/) ||
+      url.match(/^https:\/\/x\.com\/intent\/post\?text=/)
+    ).toBeTruthy();
   });
 
   it('ダウンロードで画像生成→downloadImage が呼ばれる', async () => {

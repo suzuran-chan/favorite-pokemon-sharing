@@ -139,13 +139,14 @@ export const shareImage = async (dataUrl: string, title: string, text: string): 
   }
 };
 
-// Twitter用の共有URL生成
+// Twitter/X用の共有URL生成
 export const generateTwitterShareUrl = (text: string, hashtags: string[] = []): string => {
   const params = new URLSearchParams({
     text,
     hashtags: hashtags.join(','),
   });
-  return `https://twitter.com/intent/tweet?${params.toString()}`;
+  // X.comの新URLを使用
+  return `https://x.com/intent/post?${params.toString()}`;
 };
 
 // Facebook用の共有URL生成（画像は手動でアップロード）
