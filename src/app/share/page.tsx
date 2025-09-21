@@ -164,8 +164,8 @@ export default function SharePage() {
                 </Button>
               </Link>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">シェアする</h1>
-                <p className="text-sm text-gray-600">
+                <h1 className="text-2xl font-bold text-gray-900" data-testid="share-page-title">シェアする</h1>
+                <p className="text-sm text-gray-600" data-testid="share-pokemon-count">
                   選択した{selectedPokemon.length}匹のポケモンを共有
                 </p>
               </div>
@@ -280,6 +280,7 @@ export default function SharePage() {
                       variant="outline"
                       className="w-full justify-start"
                       onClick={() => handleSocialShare('twitter')}
+                      data-testid="twitter-share-button"
                     >
                       <Twitter className="h-4 w-4 mr-2 text-blue-500" />
                       Twitterで共有
