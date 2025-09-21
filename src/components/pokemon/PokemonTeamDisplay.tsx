@@ -147,7 +147,7 @@ export function PokemonTeamDisplay({
       {/* Footer */}
       <div className="text-center mt-8">
         <p className="text-white/60 text-sm">
-          好きなポケモン共有アプリで作成
+          FavoritePokemonSharingで作成
         </p>
       </div>
     </div>
