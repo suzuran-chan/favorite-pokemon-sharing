@@ -10,6 +10,7 @@ import { PokemonFilters } from '@/components/pokemon/PokemonFilters';
 import { PokemonCard } from '@/components/pokemon/PokemonCard';
 import { SelectedPokemonPreview } from '@/components/pokemon/SelectedPokemonPreview';
 import { useSelectedPokemonCount } from '@/store/pokemonStore';
+import { reloadPage } from '@/utils/navigation';
 
 export default function SelectPokemonPage() {
   console.log('SelectPokemonPage component loaded');
@@ -34,7 +35,7 @@ export default function SelectPokemonPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-600 mb-4">{error}</p>
-          <Button onClick={() => window.location.reload()}>
+          <Button onClick={() => reloadPage()}>
             再試行
           </Button>
         </div>
