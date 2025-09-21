@@ -201,7 +201,7 @@ export default function SharePage() {
                 <CardTitle>プレビュー</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="bg-gray-100 p-4 rounded-lg">
+                <div className="bg-gray-100 p-4 rounded-lg flex items-center justify-center">
                   <PokemonTeamDisplay
                     elementId="pokemon-team-display"
                     customTheme={selectedTheme}

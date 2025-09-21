@@ -192,22 +192,22 @@ export const generateColorPalette = () => {
       secondary: '#764ba2',
     },
     {
-      name: 'オーシャン',
-      background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-      primary: '#1e3c72',
-      secondary: '#2a5298',
-    },
-    {
       name: 'サンセット',
       background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
       primary: '#f093fb',
       secondary: '#f5576c',
     },
     {
+      name: 'オーシャン',
+      background: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)',
+      primary: '#a1c4fd',
+      secondary: '#c2e9fb',
+    },
+    {
       name: 'フォレスト',
-      background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-      primary: '#4facfe',
-      secondary: '#00f2fe',
+      background: 'linear-gradient(135deg, #56ab2f 0%, #a8e063 100%)',
+      primary: '#56ab2f',
+      secondary: '#a8e063',
     },
     {
       name: 'オータム',
