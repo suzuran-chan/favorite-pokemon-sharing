@@ -33,7 +33,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run E2E tests (Playwright)
-        run: npx playwright test --project=chromium --retry-on-failure=2
+        run: npx playwright test --browser=chromium --retries=2
         env:
           CI: true
           
