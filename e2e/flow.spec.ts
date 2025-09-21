@@ -23,6 +23,14 @@ test.describe('基本フロー', () => {
     // ポップアップを検証
     const popup = await popupPromise;
     await popup.waitForLoadState();
-    expect(popup.url()).toContain('twitter.com/intent/tweet');
+    
+    // TwitterはX.comに変わったのでURLを両方チェック
+    const popupUrl = popup.url();
+    expect(
+      popupUrl.includes('twitter.com/intent/tweet') || 
+      popupUrl.includes('x.com/intent/post')
+    ).toBeTruthy();
+    
+    console.log('Popup URL:', popupUrl);
   });
 });

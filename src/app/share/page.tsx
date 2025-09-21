@@ -130,7 +130,8 @@ export default function SharePage() {
     isOpeningRef.current = true;
 
     // 要望に合わせて window.open(url, "_blank") で開く
-    window.open(`https://twitter.com/intent/tweet?text=${encodedText}`, '_blank');
+    // TwitterはX.comに変更されたので新しいURLを使用
+    window.open(`https://x.com/intent/post?text=${encodedText}`, '_blank');
 
     // 少し待ってガード解除（連打対策）
     setTimeout(() => { isOpeningRef.current = false; }, 800);
