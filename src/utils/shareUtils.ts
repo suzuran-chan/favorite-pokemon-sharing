@@ -170,10 +170,16 @@ export const generateShareText = (pokemonNames: string[]): string => {
     return '好きなポケモンチームを作成しました！';
   }
   
-  const names = pokemonNames.slice(0, 3).join('、');
-  const suffix = pokemonNames.length > 3 ? 'など' : '';
+  // すべてのポケモン名を表示
+  let text = '私の好きなポケモンチーム✨\n\n';
   
-  return `私の好きなポケモンチーム: ${names}${suffix}！`;
+  pokemonNames.forEach((name, index) => {
+    text += `${index + 1}. ${name}\n`;
+  });
+  
+  text += '\nみんなの好きなポケモンも教えて！';
+  
+  return text;
 };
 
 // カラーパレット生成

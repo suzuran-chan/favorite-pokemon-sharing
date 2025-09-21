@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,9 +14,6 @@ import {
   downloadImage,
   copyImageToClipboard,
   shareImage,
-  generateTwitterShareUrl,
-  generateFacebookShareUrl,
-  generateLineShareUrl,
   generateShareText,
   generateColorPalette,
 } from '@/utils/shareUtils';
@@ -26,8 +23,6 @@ import {
   Copy,
   Share2,
   Twitter,
-  Facebook,
-  MessageCircle,
   CheckCircle,
   AlertCircle,
 } from 'lucide-react';
@@ -43,6 +38,8 @@ export default function SharePage() {
     type: null,
     message: '',
   });
+  // 短いテキストで事前入力が機能するかのテスト用URL
+  const intentTestUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent('テスト投稿')}`;
 
   // ポケモンが選択されていない場合のリダイレクト
   useEffect(() => {
@@ -113,24 +110,24 @@ export default function SharePage() {
     }
   };
 
-  const handleSocialShare = (platform: 'twitter' | 'facebook' | 'line') => {
-    const shareText = generateShareText(selectedPokemon.map(p => p.name));
-    const hashtags = ['ポケモン', '好きなポケモン', 'Pokemon'];
-    
-    let url: string;
-    switch (platform) {
-      case 'twitter':
-        url = generateTwitterShareUrl(shareText, hashtags);
-        break;
-      case 'facebook':
-        url = generateFacebookShareUrl();
-        break;
-      case 'line':
-        url = generateLineShareUrl(shareText);
-        break;
-    }
-    
-    window.open(url, '_blank', 'width=600,height=400');
+  // 連打やブラウザの挙動で二重起動しないようにガード
+  const isOpeningRef = useRef(false);
+
+  const handleSocialShare = (platform: 'twitter') => {
+    // テキスト事前入力の動作確認用に、短い固定テキストでテストします
+    const testText = 'テスト投稿';
+    const encodedText = encodeURIComponent(testText);
+
+    if (isOpeningRef.current) return; // 二重起動防止
+    isOpeningRef.current = true;
+
+    // 事前入力が比較的安定している Intent Tweet を開く（1回のみ）
+  window.open(`https://twitter.com/intent/tweet?text=${encodedText}`, '_blank', 'noopener,noreferrer');
+
+    // 少し待ってガード解除（連打対策）
+    setTimeout(() => { isOpeningRef.current = false; }, 800);
+
+    showStatus('success', 'テスト用の短いテキストで投稿画面を開きました。入力されているか確認してください。');
   };
 
   if (selectedPokemon.length === 0) {
@@ -272,35 +269,27 @@ export default function SharePage() {
                 </Button>
 
                 <div className="border-t pt-3 mt-3">
-                  <p className="text-sm text-gray-600 mb-3">SNSで共有</p>
+                  <p className="text-sm text-gray-600 mb-2">Twitterで共有</p>
+                  <p className="text-xs text-gray-500 mb-3">
+                    ブラウザでTwitter投稿画面を開きます。
+                  </p>
                   
                   {/* Social Share Buttons */}
                   <div className="grid grid-cols-1 gap-2">
                     <Button
-                      onClick={() => handleSocialShare('twitter')}
                       variant="outline"
                       className="w-full justify-start"
+                      onClick={() => {
+                        if (isOpeningRef.current) return;
+                        isOpeningRef.current = true;
+                        // 要望に合わせて window.open(url, "_blank") を使用
+                        window.open(intentTestUrl, '_blank');
+                        setTimeout(() => { isOpeningRef.current = false; }, 800);
+                        showStatus('success', 'テスト用の短いテキストで投稿画面を開きます');
+                      }}
                     >
                       <Twitter className="h-4 w-4 mr-2 text-blue-500" />
-                      Twitterで共有
-                    </Button>
-                    
-                    <Button
-                      onClick={() => handleSocialShare('facebook')}
-                      variant="outline"
-                      className="w-full justify-start"
-                    >
-                      <Facebook className="h-4 w-4 mr-2 text-blue-600" />
-                      Facebookで共有
-                    </Button>
-                    
-                    <Button
-                      onClick={() => handleSocialShare('line')}
-                      variant="outline"
-                      className="w-full justify-start"
-                    >
-                      <MessageCircle className="h-4 w-4 mr-2 text-green-500" />
-                      LINEで共有
+                      Twitterで共有（テスト）
                     </Button>
                   </div>
                 </div>
