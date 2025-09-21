@@ -84,7 +84,7 @@ export default function Home() {
             <CardContent>
               <CardDescription className="text-base">
                 作成したポケモンチームを画像として生成し、
-                TwitterやFacebookで簡単にシェアできます。
+                SNSに簡単にシェアできます。
               </CardDescription>
             </CardContent>
           </Card>

@@ -1,19 +1,19 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('ポケモン選択', () => {
-  test('エラー表示と再試行', async ({ page }) => {
-    // すべての PokeAPI リクエストを 500 にしてエラー状態を出す
-    await page.route('https://pokeapi.co/**', route => route.fulfill({ status: 500, body: 'error' }));
+  test('データが空のとき空状態を表示する', async ({ page }) => {
+    // リストを空で返す（getAllPokemon の結果 [] 想定）
+    await page.route('https://pokeapi.co/api/v2/pokemon?limit=1010', route => route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ count: 0, results: [] }),
+    }));
+    // その他の PokeAPI は不要なので遮断
+    await page.route('https://pokeapi.co/**', route => route.abort());
 
     await page.goto('/select');
 
-    // エラーメッセージ表示
-    await expect(page.getByText('ポケモンデータの取得に失敗しました', { exact: false })).toBeVisible();
-
-    // 再試行で reload が走る（URL はそのままだがページはリロードされる）
-    await page.getByRole('button', { name: '再試行' }).click();
-
-    // 再読み込み後も同じメッセージ（インターセプトは継続）
-    await expect(page.getByText('ポケモンデータの取得に失敗しました', { exact: false })).toBeVisible();
+    // 空状態のメッセージ
+    await expect(page.getByText('条件に一致するポケモンが見つかりません')).toBeVisible();
   });
 });

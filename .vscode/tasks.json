@@ -70,6 +70,26 @@
 			"label": "run-playwright-tests",
 			"type": "shell",
 			"command": "npm run test:e2e --silent"
+		},
+		{
+			"label": "run-playwright-tests",
+			"type": "shell",
+			"command": "npm run test:e2e --silent"
+		},
+		{
+			"label": "run-playwright-tests",
+			"type": "shell",
+			"command": "npm run test:e2e --silent"
+		},
+		{
+			"label": "run-playwright-tests",
+			"type": "shell",
+			"command": "npm run test:e2e --silent"
+		},
+		{
+			"label": "run-playwright-tests",
+			"type": "shell",
+			"command": "npm run test:e2e --silent"
 		}
 	]
 }
