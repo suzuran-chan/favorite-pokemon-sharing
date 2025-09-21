@@ -59,6 +59,8 @@ Vercel デプロイを行うために、以下の GitHub シークレットが�
 
 ワークフローファイル (`.github/workflows/ci.yml`) を編集することで、CI/CD パイプラインをカスタマイズできます。
 
+> **注意**: Playwright のインストールには `npx playwright install --with-deps` を使用してください。古い `microsoft/playwright-github-action@v1` アクションは非推奨となっています。
+
 ### テストの変更
 
 ```yaml
