@@ -1,0 +1,13 @@
+{
+  "ignorePatterns": [
+    ".next/",
+    "node_modules/",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "e2e/",
+    "jest.config.js",
+    "jest.config.ts",
+    "jest.setup.ts"
+  ],
+  "extends": "next/core-web-vitals"
+}
