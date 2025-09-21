@@ -23,7 +23,9 @@
 - **ランダム選択**: ワンクリックでランダムな6匹を提案
 - **レスポンシブデザイン**: スマートフォン、タブレット、PC対応
 - **リアルタイムプレビュー**: 選択中のポケモンをリアルタイム表示
-- **画像ダウンロード**: 作成したチーム画像のローカル保存
+- **画像ダウンロード/コピー**: 作成したチーム画像をダウンロード or クリップボードへコピー
+- **テスト自動化**: Jest（単体/コンポーネント）と Playwright（E2E）を用意
+- **CI/CD**: GitHub Actions でテスト→Vercel へデプロイ（PR はプレビュー、本番は main ブランチ）
 
 ## 技術スタック
 
@@ -50,35 +52,57 @@
 
 ### インストール
 
-```bash
-# リポジトリをクローン
-git clone https://github.com/your-username/favorite-pokemon-sharing.git
-cd favorite-pokemon-sharing
+開発環境の詳しい操作方法は [docs/Windows.md](docs/Windows.md) を参照してください。
 
-# 依存関係をインストール
-npm install
+ローカル最短手順（PowerShellの例）:
 
-# 開発サーバーを起動
+```powershell
+# 依存関係のインストール
+npm ci
+
+# 開発サーバー起動
 npm run dev
+
+# 単体テスト実行（Jest）
+npm test
+
+# E2Eテスト（Playwright）
+npm run pw:install  # ブラウザを一括インストール（初回のみ）
+npm run test:e2e    # ヘッドレスモードでテスト実行
+npm run test:e2e:ui # UIモードでテスト実行（対話的デバッグ）
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[http://localhost:3000](http://localhost:3000) をブラウザで開くとアプリを確認できます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`app/page.tsx` を編集すると、ページは自動的に更新されます。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+このプロジェクトでは [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) を使用して [Geist](https://vercel.com/font) フォントを最適化して読み込んでいます。
 
-## Learn More
+## CI/CD（GitHub Actions → Vercel）
 
-To learn more about Next.js, take a look at the following resources:
+このリポジトリには `.github/workflows/ci.yml` が含まれており、以下を自動化します：
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- push / PR 時に Jest + Playwright を実行
+- PR の場合は Vercel プレビューにデプロイ
+- main ブランチへの push は Vercel 本番デプロイ
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+セットアップ手順や必要なシークレットの詳細は [docs/CI-CD.md](docs/CI-CD.md) を参照してください。
 
-## Deploy on Vercel
+## もっと詳しく
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Next.jsについて詳しく知るには、以下のリソースを参照してください：
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js ドキュメント](https://nextjs.org/docs) - Next.jsの機能とAPIについて
+- [Next.js 学習ガイド](https://nextjs.org/learn) - インタラクティブなNext.jsチュートリアル
+
+[Next.js GitHubリポジトリ](https://github.com/vercel/next.js)もチェックしてみてください - フィードバックや貢献を歓迎しています！
+
+## CI/CD（GitHub Actions → Vercel）
+
+このリポジトリには `.github/workflows/ci.yml` が含まれており、以下を自動化します。
+
+- push / PR 時に Jest + Playwright を実行
+- PR の場合は Vercel プレビューにデプロイ
+- main ブランチへの push は Vercel 本番デプロイ
+
+セットアップ手順や必要なシークレットの詳細は docs/CI-CD.md を参照してください。
